@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"os"
 	"testing"
+	"time"
 )
 
 func TestCreateImage(t *testing.T) {
@@ -16,6 +17,7 @@ func TestCreateImage(t *testing.T) {
 	var err error
 	c := NewClient(apiToken)
 	ctx := context.Background()
+	ts := time.Now()
 	res, err := c.CreateImage(ctx, ImageRequest{
 		Prompt:         "a cat",
 		N:              1,
@@ -23,6 +25,8 @@ func TestCreateImage(t *testing.T) {
 		ResponseFormat: "",
 		User:           "",
 	})
+	as := time.Now()
+	t.Logf("time:%v", as.Sub(ts))
 	if err != nil {
 		t.Fatalf("ListEngines error: %v", err)
 	}

@@ -31,7 +31,10 @@ func TestAPI(t *testing.T) {
 	var err error
 	c := NewClient(apiToken)
 	ctx := context.Background()
+	ts := time.Now()
 	res, err := c.ListEngines(ctx)
+	as := time.Now()
+	t.Logf("ListEngines API time:%v", as.Sub(ts))
 	if err != nil {
 		t.Fatalf("ListEngines error: %v", err)
 	}
