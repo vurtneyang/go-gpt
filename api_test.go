@@ -23,7 +23,7 @@ const (
 )
 
 func TestAPI(t *testing.T) {
-	apiToken := os.Getenv("OPENAI_TOKEN")
+	apiToken := os.Getenv("OPENAI_KEY")
 	if apiToken == "" {
 		t.Skip("Skipping testing against production OpenAI API. Set OPENAI_TOKEN environment variable to enable it.")
 	}
@@ -31,10 +31,12 @@ func TestAPI(t *testing.T) {
 	var err error
 	c := NewClient(apiToken)
 	ctx := context.Background()
-	_, err = c.ListEngines(ctx)
+	res, err := c.ListEngines(ctx)
 	if err != nil {
 		t.Fatalf("ListEngines error: %v", err)
 	}
+	jsonStr, _ := json.Marshal(res)
+	t.Logf("%s", string(jsonStr))
 
 	_, err = c.GetEngine(ctx, "davinci")
 	if err != nil {
